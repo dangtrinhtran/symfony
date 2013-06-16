@@ -1,0 +1,7 @@
+LikipeBlogBundle_Post_index:
+    pattern:  /
+    defaults: { _controller: "LikipeBlogBundle:Post:index" }
+    
+LikipeBlogBundle_Post_add:
+    pattern:  /add
+    defaults: { _controller: "LikipeBlogBundle:Post:add" }

@@ -1,0 +1,4 @@
+likipe_blog:
+    resource: "@LikipeBlogBundle/Resources/config/routing.yml"
+    prefix:   /
+
