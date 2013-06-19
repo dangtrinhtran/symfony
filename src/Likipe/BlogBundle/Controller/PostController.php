@@ -3,16 +3,30 @@
 namespace Likipe\BlogBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Likipe\BlogBundle\Form\Post\PostType;
 use Likipe\BlogBundle\Entity\Post;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class PostController extends Controller {
 	public function indexAction() {
-		return $this->render('LikipeBlogBundle:Post:index.html.twig');
+
+		$em = $this->getDoctrine()->getEntityManager();
+		$oBlog = $em->getRepository('LikipeBlogBundle:Post');
 		
+		$oPost = $this->getDoctrine()
+			->getRepository('LikipeBlogBundle:Post')
+			->findAll();
+		
+		if (!$oPost) {
+			throw $this->createNotFoundException(
+					'No product found'
+			);
+		}
+		#var_dump($oPost);
+		return $this->render('LikipeBlogBundle:Post:index.html.twig', 
+				array('posts' => $oPost)
+		);
 	}
 	
 	public function addAction(Request $request) {
@@ -36,5 +50,18 @@ class PostController extends Controller {
 		return $this->render('LikipeBlogBundle:Post:add.html.twig', array(
 			'post' => $form->createView()
 		));
-	}	
+	}
+	
+	public function editAction( $iPostId ) {
+		
+		return $this->render('LikipeBlogBundle:Post:edit.html.twig', array(
+			#'post' => $form->createView(),
+			'postId'	=> $iPostId
+		));
+	}
+	
+	public function deleteAction() {
+
+		return $this->redirect($this->generateUrl('LikipeBlogBundle_Post_index'));
+	}
 }

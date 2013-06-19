@@ -5,3 +5,11 @@ LikipeBlogBundle_Post_index:
 LikipeBlogBundle_Post_add:
     pattern:  /add
     defaults: { _controller: "LikipeBlogBundle:Post:add" }
+    
+LikipeBlogBundle_Post_edit:
+    pattern:  /edit/{postId}
+    defaults: { _controller: "LikipeBlogBundle:Post:edit" }
+    
+LikipeBlogBundle_Post_delete:
+    pattern:  /delete/{postId}
+    defaults: { _controller: "LikipeBlogBundle:Post:delete" }
