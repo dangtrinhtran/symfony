@@ -31,7 +31,10 @@ class PostController extends Controller {
 	
 	public function addAction(Request $request) {
 		$oPost = new Post();
-		$form = $this->createForm(new PostType(), $oPost);
+		$form = $this->createForm(
+				new PostType(),
+				$oPost
+			);
 		/**
 		 * Form for symfony3
 		 */
@@ -44,6 +47,8 @@ class PostController extends Controller {
 			$em = $this->getDoctrine()->getEntityManager();
 			$em->persist($oPost);
 			$em->flush();
+			$this->get( 'session' )->getFlashBag()->add( 'success', $this->get('translator')->trans('Create successfully post: ' . $oPost->getTitle()) );
+			
 			return $this->redirect( $this->generateUrl( 'LikipeBlogBundle_Post_index' ));
 		}
 		

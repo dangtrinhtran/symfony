@@ -10,9 +10,6 @@
 			{{ form_errors(post) }}
 			<div class="form-content clearfix row-fluid">
 				<div class="form-info">
-				{#{ form_row(post.author) }}
-				{{ form_row(post.title) }}
-				{{ form_row(post.content) }#}
 				{{ form_widget(post) }}
 				</div>
 				{{ form_rest(post) }}
