@@ -9,29 +9,28 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class PostType extends AbstractType {
-
+	
 	public function buildForm(FormBuilderInterface $builder, array $options) {
+		#$sValueAuthor = (!empty($options['sAuthor'])) ? $options['sAuthor'] : '';
 		$builder->add('author', 'text', array(
 			'label' => 'Author post: ',
 			'required' => false
 		));
-
+		
+		#$sValueTitle = (!empty($options['sTitle'])) ? $options['sTitle'] : '';
 		$builder->add('title', 'text', array(
-			'label' => 'Title post: ',
-			'required' => true
+			'label' => 'Title post: '
 		));
 
-		$builder->add('content', 'textarea', array(
+		#$sValueContent = (!empty($options['sContent'])) ? $options['sContent'] : '';
+		$builder->add('content', 'ckeditor', array(
 			'label' => 'Content post: ',
-			'required' => true
+			'required' => false
 		));
 	}
 
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {
 		$resolver->setDefaults(array(
-			/*'sAuthor' => NULL,
-			'sTitle' => NULL,
-			'sContent' => NULL*/
 			'data_class' => 'Likipe\BlogBundle\Entity\Post'
 		));
 	}

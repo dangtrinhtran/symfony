@@ -7,7 +7,7 @@ app/bootstrap*
 */logs/*
 */cache/*
 web/uploads/*
-web/bundles/*
+web/bundles
 bin
 composer.phar
 # Configuration files

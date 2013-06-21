@@ -2,45 +2,48 @@
 {% block title "Post" %}
 {% block content %}
 <div class="container">
-
-	<div class="row-fluid blog">
-		
-			<h1>List posts!</h1>
-			<table class="list-posts">
-				<thead>
-					<tr class="row-fluid">
-						<th class="span1">STT</th>
-						<th class="span1">Id post</th>
-						<th class="span2">Title post</th>
-						<th class="span3">Content post</th>
-						<th class="span2">Created post</th>
-						<th class="span1">Author post</th>
-						<th class="span2">Action</th>
-					</tr>
-				</thead>
-				<tbody>
+	{% for flashMessage in app.session.flashbag.get('success_note') %}
+		<div class="flash-notice">
+        {{ flashMessage }}
+			</div>
+{% endfor %}
+			<div class="row-fluid blog">		
+				<h2 style="padding-bottom: 20px;">List posts!</h2>
+				<table class="list-posts table table-striped table-bordered">
+					<thead>
+						<tr>
+							<th>STT</th>
+							<th>Id post</th>
+							<th>Title post</th>
+							<th>Created post</th>
+							<th>Updated post</th>
+							<th>Author post</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
 				{% for key, post in posts %}
-					<tr class="row-fluid" style="border-bottom: 1px solid rgba(0, 0, 0, 0.15); padding-bottom: 15px;">
-						<td class="span1">{{ key + 1 }}</td>
-						<td class="span1">{{ post.id }}</td>
-						<th class="span2">{{ post.title }}</th>
-						<td class="span3">{{ post.content }}</td>
+							<tr style="border-bottom: 1px solid rgba(0, 0, 0, 0.15); padding-bottom: 15px;">
+								<td>{{ key + 1 }}</td>
+								<td>{{ post.id }}</td>
+								<th>{{ post.title }}</th>
 						{% set oDateCreate =  post.created %}
-						<td class="span2">{{ oDateCreate.date }}</td>
-						<td class="span1">{{ post.author }}</td>
-						<td class="span2">
-							<a class="btn btn-edit btn-info" href="{{ path('LikipeBlogBundle_Post_edit', {'postId': post.id}) }}">{% trans %}Edit post{% endtrans %}</a>
-							<br><br>
-							<a class="btn btn-delete btn-danger" href="{{ path('LikipeBlogBundle_Post_delete', {'postId': post.id}) }}" onclick="return confirm('{% trans %}Are you sure you want to delete this post ?{% endtrans %}');">{% trans %}Delete post{% endtrans %}</a>
-						</td>
-					</tr>
+									<td>{{ oDateCreate.date }}</td>
+						{% set oDateUpdate =  post.updated %}
+									<td>{{ oDateUpdate.date }}</td>
+									<td>{{ post.author }}</td>
+									<td>
+										<a class="btn btn-edit btn-info" href="{{ path('LikipeBlogBundle_Post_edit', {'iPostId': post.id}) }}">{% trans %}Edit post{% endtrans %}</a>
+										<br><br>
+										<a class="btn btn-delete btn-danger" href="{{ path('LikipeBlogBundle_Post_delete', {'iPostId': post.id}) }}" onclick="return confirm('{% trans %}Are you sure you want to delete this post ?{% endtrans %}');">{% trans %}Delete post{% endtrans %}</a>
+									</td>
+								</tr>
 				{% endfor %}
-				</tbody>
-			</table>
-			<div class="btn-submit-post" style="padding-top: 20px; padding-bottom: 50px;">	
-		<a class="btn btn-success" href="{{ path('LikipeBlogBundle_Post_add') }}">{% trans %}Create post{% endtrans %}</a>
-		</div>
-	</div>
-
-</div> <!-- /container -->
+							</tbody>
+						</table>
+						<div class="btn-submit-post" style="padding-top: 20px; padding-bottom: 50px;">	
+							<a class="btn btn-success" href="{{ path('LikipeBlogBundle_Post_add') }}">{% trans %}Create post{% endtrans %}</a>
+						</div>
+					</div>
+				</div> <!-- /container -->
 {% endblock %}

@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="post")
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
  */
 class Post
 {
@@ -62,11 +63,26 @@ class Post
 	/**
      * @var integer $delete
      *
-     * @ORM\Column(name="delete_post", type="integer", nullable=false)
+     * @ORM\Column(name="delete_post", type="integer")
      */
     protected $delete;
  
-
+	/**
+	 * @ORM\PrePersist
+	 */
+	public function prePersist() {
+		$this->setCreated(new \DateTime('now'));
+		$this->setUpdated(new \DateTime('now'));
+		$this->setDelete(0);
+	}
+	
+	/**
+	 * @ORM\PreUpdate
+	 */
+	public function preUpdate() {
+		$this->setUpdated(new \DateTime('now'));
+	}
+	
 	/**
      * Get id
      *
