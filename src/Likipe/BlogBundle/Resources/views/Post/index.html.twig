@@ -19,12 +19,15 @@
 					<th>Created post</th>
 					<th>Updated post</th>
 					<th>Author post</th>
+					<th>Blog</th>
 					<th>Action</th>
 				</tr>
 			</thead>
 			<tbody>
-			{% for key, post in oPosts %}
+				
+			{% for key, post in aPosts %}
 			<tr style="border-bottom: 1px solid rgba(0, 0, 0, 0.15); padding-bottom: 15px;">
+				
 				<td>{{ key + 1 }}</td>
 				<td>{{ post.id }}</td>
 				<th>{{ post.title }}</th>
@@ -33,6 +36,11 @@
 				{% set oDateUpdate =  post.updated %}
 				<td>{{ oDateUpdate.date }}</td>
 				<td>{{ post.author }}</td>
+				{% if post.blog is empty %}
+				<td></td>
+				{% else %}
+				<td>{{ post.blog.title }}</td>
+				{% endif %}
 				<td>
 					<a class="btn btn-edit btn-info" href="{{ path('LikipeBlogBundle_Post_edit', {'iPostId': post.id}) }}">{% trans %}Edit post{% endtrans %}</a>
 					<br><br>

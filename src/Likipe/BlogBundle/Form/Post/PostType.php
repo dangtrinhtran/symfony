@@ -5,6 +5,7 @@
 namespace Likipe\BlogBundle\Form\Post;
 
 use Symfony\Component\Form\AbstractType;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
@@ -20,6 +21,17 @@ class PostType extends AbstractType {
 		#$sValueTitle = (!empty($options['sTitle'])) ? $options['sTitle'] : '';
 		$builder->add('title', 'text', array(
 			'label' => 'Title post: '
+		));
+		
+		$builder->add('blog', 'entity', array(
+			'label' => 'Blog: ',
+			'class'	=> 'LikipeBlogBundle:Blog',
+			'property' => 'title',
+			'query_builder' => function(EntityRepository $er) {
+				return $er->createQueryBuilder('b')
+						->where('b.delete = 0')
+						->orderBy('b.title', 'DESC');
+			}
 		));
 
 		#$sValueContent = (!empty($options['sContent'])) ? $options['sContent'] : '';

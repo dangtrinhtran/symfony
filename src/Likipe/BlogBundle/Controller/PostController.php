@@ -6,25 +6,26 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Likipe\BlogBundle\Form\Post\PostType;
 use Likipe\BlogBundle\Entity\Post;
 use Symfony\Component\HttpFoundation\Request;
-use Likipe\BlogBundle\Repository\PostRepository;
 
 class PostController extends Controller {
+	
 	public function indexAction($iPage) {
 		/*$iLimit = 5;
 		$iOffset = $page * $iLimit - $iLimit;*/
-		$oPost = $this->getDoctrine()
+		$aAllPosts = $this->getDoctrine()
 			->getRepository('LikipeBlogBundle:Post')
 			->findAll();	
 			#->findBy(array(), array('id' => 'DESC'), $iLimit, $iOffset); //1: conditions, 2: order, 3:limit, 4: offset
 		
-		
-		
-		if (!$oPost) {
-			throw $this->createNotFoundException(
-					'No post found!'
-			);
+		if (!$aAllPosts) {
+			$this->get( 'session' )
+					->getFlashBag()
+					->add( 'post_success', $this->get('translator')
+							->trans('Post does not exist!') );
+			
+			return $this->redirect( $this->generateUrl( 'LikipeBlogBundle_Post_index' ));
 		}
-		$iTotalPosts = count($oPost);
+		$iTotalPosts = count($aAllPosts);
 		$iPostsPerPage = $this->container->getParameter('max_post_on_post');
 		$fLastPage = ceil($iTotalPosts / $iPostsPerPage);
 		$iPreviousPage = $iPage > 1 ? $iPage - 1 : 1;
@@ -32,13 +33,12 @@ class PostController extends Controller {
 		
 		$em = $this->getDoctrine()->getManager();
 		$iOffset = $iPage * $iPostsPerPage - $iPostsPerPage;
-		$oPostNavi = $em->getRepository('LikipeBlogBundle:Post')
+		$aPostPagination = $em->getRepository('LikipeBlogBundle:Post')
             ->getActivePosts($iPostsPerPage, $iOffset);
 		
-		#var_dump($oPost);
 		return $this->render('LikipeBlogBundle:Post:index.html.twig', 
 				array(
-					'oPosts' => $oPostNavi,
+					'aPosts' => $aPostPagination,
 					'fLastPage' => $fLastPage,
 					'iPreviousPage' => $iPreviousPage,
 					'iCurrentPage' => $iPage,
@@ -50,16 +50,18 @@ class PostController extends Controller {
 	
 	public function addAction(Request $request) {
 		$oPost = new Post();
+		
 		$form = $this->createForm(
 				new PostType(),
-				$oPost
-			);
+				$oPost);
 		/**
 		 * Form for symfony3
 		 */
 		$form->handleRequest($request);
 		if($form->isValid()) {
 			$em = $this->getDoctrine()->getEntityManager();
+			#var_dump($oPost);exit;
+			
 			$em->persist($oPost);
 			$em->flush();
 			$this->get( 'session' )->getFlashBag()->add( 'post_success', $this->get('translator')->trans('Create successfully post: ' . $oPost->getTitle()) );

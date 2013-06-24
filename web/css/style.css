@@ -2,10 +2,15 @@
    Author's custom styles
    ========================================================================== */
 
+.container input.btn,
+.container a,
+.container select {
+	outline-style: none !important;
+}
 
-
-
-
+.description-blog {
+	height: 250px;
+}
 
 
 

@@ -5,3 +5,7 @@ LikipeBlogBundle_index:
 LikipeBlogBundle_Post:
     resource:   "@LikipeBlogBundle/Resources/config/routes/post.yml"
     prefix:   /post
+    
+LikipeBlogBundle_Blog:
+    resource:   "@LikipeBlogBundle/Resources/config/routes/blog.yml"
+    prefix:   /blog
