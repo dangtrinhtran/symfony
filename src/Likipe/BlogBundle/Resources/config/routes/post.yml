@@ -3,8 +3,8 @@ LikipeBlogBundle_Post_add:
     defaults: { _controller: "LikipeBlogBundle:Post:add" }
 
 LikipeBlogBundle_Post_index:
-    pattern:  /{page}
-    defaults: { _controller: "LikipeBlogBundle:Post:index", page: 1 }
+    pattern:  /{iPage}
+    defaults: { _controller: "LikipeBlogBundle:Post:index", iPage: 1 }
     
 LikipeBlogBundle_Post_edit:
     pattern:  /edit/{iPostId}

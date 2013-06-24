@@ -6,10 +6,11 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Likipe\BlogBundle\Entity\Post
- *
+ * 
  * @ORM\Table(name="post")
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
+ * @ORM\Entity(repositoryClass="Likipe\BlogBundle\Repository\PostRepository")
  */
 class Post
 {

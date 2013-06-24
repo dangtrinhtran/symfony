@@ -90,3 +90,6 @@ trsteel_ckeditor:
         url: post/js/kcfinder/browse.php?file=image
     filebrowser_image_upload_url:
         url: post/js/kcfinder/browse.php?file=image
+
+parameters:
+    max_post_on_post: 5
