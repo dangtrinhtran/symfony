@@ -85,11 +85,8 @@ trsteel_ckeditor:
     height: 300 #Integer or %
     language: 'en-au'
     filebrowser_upload_url:
-        url: post/js/kcfinder/browse.php?type=file
+        url: post/js/kcfinder/upload.php?type=file
     filebrowser_image_browse_url:
-        url: post/js/kcfinder/browse.php?file=image
+        url: post/js/kcfinder/browse.php?type=Images
     filebrowser_image_upload_url:
-        url: post/js/kcfinder/browse.php?file=image
-
-parameters:
-    max_post_on_post: 5
+        url: post/js/kcfinder/upload.php?type=Images

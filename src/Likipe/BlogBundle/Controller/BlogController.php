@@ -97,9 +97,11 @@ class BlogController extends Controller {
 					'No blog found for id ' . $iBlogId
 			);
 		}
+		//When remove blog => delete all the posts in this blog.
 		
 		$oBlog->setDelete(1);
-		
+		#$oPosts = $em->getRepository('LikipeBlogBundle:Post')->find($iBlogId);
+		#var_dump($oPosts);exit;
 		$em->flush();
 		$this->get( 'session' )->getFlashBag()->add( 'blog_success', $this->get('translator')->trans('Delete successfully blog: ' . $oBlog->getTitle()) );
 		

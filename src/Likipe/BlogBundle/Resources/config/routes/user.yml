@@ -1,0 +1,7 @@
+LikipeBlogBundle_User_index:
+    pattern:  /
+    defaults: { _controller: "LikipeBlogBundle:User:index" }
+    
+LikipeBlogBundle_User_add:
+    pattern:  /add
+    defaults: { _controller: "LikipeBlogBundle:User:add" }

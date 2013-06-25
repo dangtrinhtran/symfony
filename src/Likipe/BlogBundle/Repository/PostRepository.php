@@ -19,6 +19,7 @@ class PostRepository extends EntityRepository {
 				->setMaxResults($iLimit)
 				->setFirstResult($iOffset)
 				->getQuery();
+		//echo $oSql->getSQL();
 		return $oSql->getResult();
 	}
 

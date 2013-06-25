@@ -40,7 +40,7 @@ class Post {
 	/**
 	 * @var string $content
 	 *
-	 * @ORM\Column(name="content_post", type="text")
+	 * @ORM\Column(name="content_post", type="text", nullable=true)
 	 */
 	protected $content;
 

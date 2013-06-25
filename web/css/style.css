@@ -13,9 +13,13 @@
 }
 
 
+.form-user ul {
+	list-style: none;
+}
 
-
-
+.form-user #user div ul li {
+	color: #ee0000;
+}
 
 
 

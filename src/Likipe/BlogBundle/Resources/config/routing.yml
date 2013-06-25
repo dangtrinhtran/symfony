@@ -9,3 +9,7 @@ LikipeBlogBundle_Post:
 LikipeBlogBundle_Blog:
     resource:   "@LikipeBlogBundle/Resources/config/routes/blog.yml"
     prefix:   /blog
+    
+LikipeBlogBundle_User:
+    resource:   "@LikipeBlogBundle/Resources/config/routes/user.yml"
+    prefix:   /user

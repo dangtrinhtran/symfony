@@ -59,7 +59,7 @@ class PostController extends Controller {
 		 */
 		$form->handleRequest($request);
 		if($form->isValid()) {
-			$em = $this->getDoctrine()->getEntityManager();
+			$em = $this->getDoctrine()->getManager();
 			#var_dump($oPost);exit;
 			
 			$em->persist($oPost);
