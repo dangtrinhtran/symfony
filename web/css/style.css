@@ -4,7 +4,8 @@
 
 .container input.btn,
 .container a,
-.container select {
+.container select,
+.container select option {
 	outline-style: none !important;
 }
 

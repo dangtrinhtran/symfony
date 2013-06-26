@@ -41,7 +41,7 @@ class UserController extends Controller {
 		 */
 		$form->handleRequest($request);
 		if($form->isValid()) {
-			
+				
 				$em = $this->getDoctrine()->getManager();
 				$em->persist($oUser);
 				$em->flush();

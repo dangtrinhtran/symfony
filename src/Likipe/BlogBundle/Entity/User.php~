@@ -14,8 +14,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
  * @ORM\Table(name="user")
  * @ORM\Entity
  * @ORM\Entity(repositoryClass="Likipe\BlogBundle\Repository\UserRepository")
- * @DoctrineAssert\UniqueEntity(fields="username", message="Username already exists.")
- * @DoctrineAssert\UniqueEntity(fields="email", message="Email already exists.")
+ * @DoctrineAssert\UniqueEntity(fields="username", message="This username already exists, you can choose another username.")
+ * @DoctrineAssert\UniqueEntity(fields="email", message="This email already exists, you can choose another email.")
  */
 class User implements UserInterface {
 

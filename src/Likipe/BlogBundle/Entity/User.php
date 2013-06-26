@@ -7,6 +7,7 @@ namespace Likipe\BlogBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
+use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
 
 /**
  * Likipe\BlogBundle\Entity\User
@@ -55,7 +56,7 @@ class User implements UserInterface {
 
 	/**
 	 * @var string $password
-	 * @ORM\Column(name="password", type="string", length=40)
+	 * @ORM\Column(name="password", type="string", length=255)
 	 */
 	private $password;
 	
@@ -157,6 +158,12 @@ class User implements UserInterface {
 	 * @return User
 	 */
 	public function setPassword($password) {
+		$encoder = new MessageDigestPasswordEncoder();
+		/**
+		 * If the user enters values ​​salt.
+		 * $password = $encoder->encodePassword($password, $this->getSalt());
+		 */
+		$password = $encoder->encodePassword($password, 'likipe');
 		$this->password = $password;
 
 		return $this;
