@@ -18,15 +18,16 @@ class BlogController extends Controller {
 		if (!$aAllBlogs) {
 			$this->get( 'session' )
 					->getFlashBag()
-					->add( 'blog_success', $this->get('translator')
+					->add( 'blog_does_not_exist', $this->get('translator')
 							->trans('Blog does not exist!') );
 			
-			return $this->redirect( $this->generateUrl( 'LikipeBlogBundle_Blog_index' ));
+			#return $this->redirect( $this->generateUrl( 'LikipeBlogBundle_Blog_index' ));
+			return $this->render('LikipeBlogBundle:Default:default.html.twig');
 		}
 
 		return $this->render('LikipeBlogBundle:Blog:index.html.twig', array(
 					'aBlogs' => $aAllBlogs
-						)
+				)
 		);
 	}
 

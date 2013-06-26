@@ -16,16 +16,16 @@ class UserController extends Controller {
 				->findAll();
 
 		if (!$oAllUsers) {
-			$this->get( 'session' )->getFlashBag()->add( 'user_success', $this->get('translator')->trans('User does not exist!') );
+			$this->get( 'session' )
+					->getFlashBag()
+					->add( 'user_does_not_exist', $this->get('translator')->trans('User does not exist!') );
 			
-			return $this->render('LikipeBlogBundle:User:index.html.twig', array(
-					'oUsers' => ''
-			));
+			return $this->render('LikipeBlogBundle:Default:default.html.twig');
 		}
 
 		return $this->render('LikipeBlogBundle:User:index.html.twig', array(
 					'oUsers' => $oAllUsers
-						)
+				)
 		);
 	}
 
@@ -41,32 +41,13 @@ class UserController extends Controller {
 		 */
 		$form->handleRequest($request);
 		if($form->isValid()) {
-			/*
-			$sUsername = $oUser->getUsername();
-			$sEmail = $oUser->getEmail();
 			
-			$aCheckUsername = $this->getDoctrine()
-				->getRepository('LikipeBlogBundle:User')
-				->checkUsername($sUsername);
-			
-			$aCheckEmail = $this->getDoctrine()
-				->getRepository('LikipeBlogBundle:User')
-				->checkEmail($sEmail);
-			*/
-			/*if (!empty($aCheckUsername) || !empty($aCheckEmail)) {
-				if (!empty($aCheckUsername)) {
-					$this->get( 'session' )->getFlashBag()->add( 'user_error', $this->get('translator')->trans('Username ' . $sUsername . ' already exists.') );
-				} else {
-					$this->get( 'session' )->getFlashBag()->add( 'user_error', $this->get('translator')->trans('Email ' . $sEmail . ' already exists.') );
-				}
-			} else {*/
 				$em = $this->getDoctrine()->getManager();
 				$em->persist($oUser);
 				$em->flush();
 				$this->get('session')->getFlashBag()->add('user_success', $this->get('translator')->trans('Create successfully user: ' . $oUser->getUsername()));
 
 				return $this->redirect($this->generateUrl('LikipeBlogBundle_User_index'));
-			//}
 		}
 		
 		return $this->render('LikipeBlogBundle:User:add.html.twig', array(

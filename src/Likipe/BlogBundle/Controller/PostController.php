@@ -20,10 +20,11 @@ class PostController extends Controller {
 		if (!$aAllPosts) {
 			$this->get( 'session' )
 					->getFlashBag()
-					->add( 'post_success', $this->get('translator')
+					->add( 'post_does_not_exist', $this->get('translator')
 							->trans('Post does not exist!') );
 			
-			return $this->redirect( $this->generateUrl( 'LikipeBlogBundle_Post_index' ));
+			#return $this->redirect( $this->generateUrl( 'LikipeBlogBundle_Post_index' ));
+			return $this->render('LikipeBlogBundle:Default:default.html.twig');
 		}
 		$iTotalPosts = count($aAllPosts);
 		$iPostsPerPage = $this->container->getParameter('max_post_on_post');
