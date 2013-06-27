@@ -5,3 +5,7 @@ LikipeBlogBundle_User_index:
 LikipeBlogBundle_User_add:
     pattern:  /add
     defaults: { _controller: "LikipeBlogBundle:User:add" }
+    
+LikipeBlogBundle_User_test:
+    pattern:  /test
+    defaults: { _controller: "LikipeBlogBundle:User:test" }

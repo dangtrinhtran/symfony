@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Author's custom styles
+   Author's: Mr Rony <rony@likipe.se>
    ========================================================================== */
 
 .container input.btn,
@@ -22,7 +22,58 @@
 	color: #ee0000;
 }
 
+.login-header {
+    height: 120px;
+    padding-top: 30px;
+}
 
+label.remember {
+	line-height: 24px;
+	font-size: 13px;
+}
 
+#uniform-remember {
+	margin-bottom: 2px;
+}
+
+div.center,p.center,img.center{
+	margin-left: auto !important;
+	margin-right: auto !important;
+	float:none !important;
+	display: block;
+	text-align:center;
+}
+
+.login-box .input-prepend{
+	margin-bottom: 10px;
+}
+.login-box .btn{
+	margin-top:15px;
+	width:100%
+}
+.charisma_qr{
+	height:136px;
+	width:136px;
+	border:solid grey 1px;
+	border-radius:2px;
+	-webkit-border-radius:2px;
+	-moz-border-radius:2px;
+	box-shadow: 0 0 10px #BDBDBD;
+	-webkit-box-shadow: 0 0 10px #BDBDBD;
+	-moz-box-shadow: 0 0 10px #BDBDBD;
+}
+.box-content.buttons{
+	min-height:297px;
+}
+
+.btn-primary {
+    background-color: #43A1DA;
+    background-image: -moz-linear-gradient(center top , #4BA6DB, #369BD7);
+    background-repeat: repeat-x;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+}
+.btn-primary:hover, .btn-primary:active, .btn-primary.active, .btn-primary.disabled, .btn-primary[disabled] {
+    background-color: #369BD7;
+}
 
 
