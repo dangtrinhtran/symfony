@@ -2,6 +2,7 @@
    Author's: Mr Rony <rony@likipe.se>
    ========================================================================== */
 
+.container-fluid .btn,
 .container input.btn,
 .container a,
 .container select,
@@ -27,13 +28,45 @@
     padding-top: 30px;
 }
 
+.login-header > h2 {
+	text-transform: uppercase;
+	color: #317EAC;
+	font-size: 24px;
+}
+
+.lastname {
+	color: #317EAC;
+	margin-right: 20px;
+	font-size: 16px;
+	font-weight: 400;
+}
+
+.lastname span {
+	font-weight: 600;
+}
+
 label.remember {
 	line-height: 24px;
 	font-size: 13px;
 }
 
-#uniform-remember {
+#uniform-remember_me {
 	margin-bottom: 2px;
+}
+
+.navbar-inverse .brand.title {
+	font-weight: 600;
+	color: #317EAC;
+	font-size: 24px;
+}
+
+.navbar-inverse .nav > li > a {
+	text-transform: uppercase;
+}
+
+.login-error {
+	margin-bottom: 10px;
+	text-align: left !important;
 }
 
 div.center,p.center,img.center{

@@ -13,3 +13,14 @@ LikipeBlogBundle_Blog:
 LikipeBlogBundle_User:
     resource:   "@LikipeBlogBundle/Resources/config/routes/user.yml"
     prefix:   /user
+ 
+LikipeBlogBundle_Security_login:
+    pattern:  /login
+    defaults: { _controller: "LikipeBlogBundle:Security:login" }
+
+LikipeBlogBundle_Security_login_check:
+    pattern:  /login_check
+
+LikipeBlogBundle_Security_logout:
+    pattern:  /logout
+    defaults: { _controller: "LikipeBlogBundle:Security:logout" }

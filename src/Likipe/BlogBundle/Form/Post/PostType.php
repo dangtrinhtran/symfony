@@ -23,6 +23,9 @@ class PostType extends AbstractType {
 			'label' => 'Title post: '
 		));
 		
+		/**
+		 * Entity Field Type
+		 */
 		$builder->add('blog', 'entity', array(
 			'label' => 'Blog: ',
 			'class'	=> 'LikipeBlogBundle:Blog',
@@ -33,8 +36,18 @@ class PostType extends AbstractType {
 						->orderBy('b.title', 'DESC');
 			}
 		));
+		
+		/**
+		 * Upload file
+		 */
+		$builder->add('file', 'file', array(
+			'label' => 'Featured image: ',
+			'required'  => false
+		));
 
-		#$sValueContent = (!empty($options['sContent'])) ? $options['sContent'] : '';
+		/**
+		 * Using CKEditor content
+		 */
 		$builder->add('content', 'ckeditor', array(
 			'label' => 'Content post: ',
 			'required' => false

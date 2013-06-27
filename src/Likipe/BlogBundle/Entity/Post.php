@@ -3,6 +3,8 @@
 namespace Likipe\BlogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Likipe\BlogBundle\Entity\Post
@@ -71,6 +73,16 @@ class Post {
 	 */
 	protected $blog;
 	
+	/**
+	 * @var string $featuredimage
+	 * @ORM\Column(name="featured_image", type="string", length=255, nullable=true)
+	 */
+	protected $featuredimage;
+	
+	/**
+	 * @Assert\File(maxSize="6000000")
+	 */
+	private $file;
 
 	/**
 	 * @ORM\PrePersist
@@ -242,6 +254,95 @@ class Post {
 	 */
 	public function getBlog() {
 		return $this->blog;
+	}
+
+
+    /**
+	 * Set featuredimage
+	 *
+	 * @param string $featuredimage
+	 * @return Post
+	 */
+	public function setFeaturedimage($featuredimage) {
+		$this->featuredimage = $featuredimage;
+
+		return $this;
+	}
+
+	/**
+	 * Get featuredimage
+	 *
+	 * @return string 
+	 */
+	public function getFeaturedimage() {
+		return $this->featuredimage;
+	}
+
+	/**
+	 * Sets file.
+	 *
+	 * @param UploadedFile $file
+	 */
+	public function setFile(UploadedFile $file = null) {
+		$this->file = $file;
+	}
+
+	/**
+	 * Get file.
+	 *
+	 * @return UploadedFile
+	 */
+	public function getFile() {
+		return $this->file;
+	}
+
+	public function getAbsolutePath() {
+		return null === $this->featuredimage ? null : $this->getUploadRootDir() . '/' . $this->featuredimage;
+	}
+
+	public function getWebPath() {
+		return null === $this->featuredimage ? null : $this->getUploadDir() . '/' . $this->featuredimage;
+	}
+
+	/**
+	 * The absolute directory path where uploaded.
+	 * Documents should be saved.
+	 */
+	protected function getUploadRootDir() {
+		return __DIR__ . '/../../../../web/' . $this->getUploadDir();
+	}
+
+	/**
+	 * Get rid of the __DIR__ so it doesn't screw up
+	 * When displaying uploaded doc/image in the view.
+	 */
+	protected function getUploadDir() {
+		return 'uploads/documents';
+	}
+	
+	/**
+	 * The upload() method will take advantage of the UploadedFile object, 
+	 * which is what's returned after a file field is submitted
+	 */
+	public function upload() {
+		// the file property can be empty if the field is not required
+		if (null === $this->getFile()) {
+			return;
+		}
+
+		// use the original file name here but you should
+		// sanitize it at least to avoid any security issues
+		// move takes the target directory and then the
+		// target filename to move to
+		$this->getFile()->move(
+				$this->getUploadRootDir(), $this->getFile()->getClientOriginalName()
+		);
+
+		// set the path property to the filename where you've saved the file
+		$this->featuredimage = $this->getUploadDir() . '/' .$this->getFile()->getClientOriginalName();
+
+		// clean up the file property as you won't need it anymore
+		$this->file = null;
 	}
 
 }

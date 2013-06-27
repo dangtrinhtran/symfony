@@ -30,7 +30,7 @@ class UserController extends Controller {
 	}
 	
 	public function testAction() {
-		return $this->render('LikipeBlogBundle:User:login.html.twig');
+		return $this->render('LikipeBlogBundle:Security:login.html.twig');
 	}
 
 	public function addAction( Request $request ) {

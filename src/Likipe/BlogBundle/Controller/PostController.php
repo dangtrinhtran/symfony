@@ -60,8 +60,10 @@ class PostController extends Controller {
 		 */
 		$form->handleRequest($request);
 		if($form->isValid()) {
+			//Upload file
+			$oPost->upload();
+			
 			$em = $this->getDoctrine()->getManager();
-			#var_dump($oPost);exit;
 			
 			$em->persist($oPost);
 			$em->flush();

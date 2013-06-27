@@ -71,6 +71,11 @@ class Post {
 	 */
 	protected $blog;
 	
+	/**
+	 * @var string $featuredimage
+	 * @ORM\Column(name="featured_image", type="string", length=255, nullable=true)
+	 */
+	protected $featuredimage;
 
 	/**
 	 * @ORM\PrePersist
@@ -242,6 +247,28 @@ class Post {
 	 */
 	public function getBlog() {
 		return $this->blog;
+	}
+
+
+    /**
+	 * Set featuredimage
+	 *
+	 * @param string $featuredimage
+	 * @return Post
+	 */
+	public function setFeaturedimage($featuredimage) {
+		$this->featuredimage = $featuredimage;
+
+		return $this;
+	}
+
+	/**
+	 * Get featuredimage
+	 *
+	 * @return string 
+	 */
+	public function getFeaturedimage() {
+		return $this->featuredimage;
 	}
 
 }
