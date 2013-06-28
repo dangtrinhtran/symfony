@@ -86,10 +86,13 @@ class PostController extends Controller {
 					'No post found for id ' . $iPostId
 			);
 		}
-		
+		#var_dump($oPost);exit;
 		$form = $this->createForm(
 				new PostType(),
-				$oPost
+				$oPost,
+				array(
+					'sValueFile'	=> $oPost->getFeaturedimage()
+				)
 			);
 		/**
 		 * Form for symfony3
@@ -98,7 +101,9 @@ class PostController extends Controller {
 		if($form->isValid()) {
 			
 			//$em->persist($oPost);
-			
+			$sImage = $oPost->getFeaturedimage();
+			$oPost->setFeaturedimage($sImage);
+			$oPost->upload();
 			$em->flush();
 			$this->get( 'session' )->getFlashBag()->add( 'post_success', $this->get('translator')->trans('Edit successfully post: ' . $oPost->getTitle()) );
 			
@@ -120,7 +125,7 @@ class PostController extends Controller {
 					'No post found for id ' . $iPostId
 			);
 		}
-		
+		$oPost->removeUpload();
 		$em->remove($oPost);
 		$em->flush();
 		$this->get( 'session' )->getFlashBag()->add( 'post_success', $this->get('translator')->trans('Delete successfully post: ' . $oPost->getTitle()) );

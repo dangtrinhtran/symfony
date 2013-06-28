@@ -40,8 +40,10 @@ class PostType extends AbstractType {
 		/**
 		 * Upload file
 		 */
+		$sValueFile = (!empty($options['sValueFile'])) ? $options['sValueFile'] : '';
 		$builder->add('file', 'file', array(
 			'label' => 'Featured image: ',
+			'attr'	=> array('value' => $sValueFile),
 			'required'  => false
 		));
 
@@ -56,6 +58,7 @@ class PostType extends AbstractType {
 
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {
 		$resolver->setDefaults(array(
+			'sValueFile'	=> NULL,
 			'data_class' => 'Likipe\BlogBundle\Entity\Post'
 		));
 	}

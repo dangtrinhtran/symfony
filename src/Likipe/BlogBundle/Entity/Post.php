@@ -344,5 +344,14 @@ class Post {
 		// clean up the file property as you won't need it anymore
 		$this->file = null;
 	}
+	
+	/**
+	 * @ORM\PostRemove()
+	 */
+	public function removeUpload() {
+		if (isset($this->file)) {
+			unlink($this->file);
+		}
+	}
 
 }

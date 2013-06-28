@@ -36,4 +36,5 @@ security:
         #- { path: ^/backend/user/*, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/backend/post/add, roles: ROLE_EDITOR }
         - { path: ^/backend/post/edit/*, roles: ROLE_EDITOR }
+        - { path: ^/backend/post, roles: ROLE_EDITOR }
         - { path: ^/backend/*, roles: ROLE_ADMIN }

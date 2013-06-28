@@ -22,6 +22,7 @@
 		
 		{% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('css/style.css?v=1.0') }}">
+		<link rel="stylesheet" href="{{ asset('css/uniform.default.min.css') }}">
 		{% endblock %}
 
         <script src="{{ asset('js/vendor/modernizr-2.6.2-respond-1.1.0.min.js') }}"></script>
@@ -52,6 +53,7 @@
 		
 		{% block javascripts %}
         <script src="{{ asset('js/script.js') }}"></script>
+		<script src="{{ asset('js/libs/jquery.uniform.min.js') }}"></script>
 		{% endblock %}
         <script>
             var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
