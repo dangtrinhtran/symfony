@@ -8,17 +8,35 @@ use Symfony\Component\Form\AbstractType;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Security\Core\SecurityContext;
 
 class PostType extends AbstractType {
 	
+	private $securityContext;
+
+	public function __construct(SecurityContext $securityContext) {
+		$this->securityContext = $securityContext;
+	}
+	
 	public function buildForm(FormBuilderInterface $builder, array $options) {
-		#$sValueAuthor = (!empty($options['sAuthor'])) ? $options['sAuthor'] : '';
+		
+		// grab the user, do a quick sanity check that one exists
+        $user = $this->securityContext->getToken()->getUser();
+        if (!$user) {
+            throw new \LogicException(
+                'The PostType cannot be used without an authenticated user!'
+            );
+        }
+		
+		$username = mb_convert_case($user->getUsername(), MB_CASE_TITLE, "UTF-8");
+		
 		$builder->add('author', 'text', array(
 			'label' => 'Author post: ',
+			'attr'	=> array('value'	=> $username),
 			'required' => false
 		));
 		
-		#$sValueTitle = (!empty($options['sTitle'])) ? $options['sTitle'] : '';
+		
 		$builder->add('title', 'text', array(
 			'label' => 'Title post: '
 		));
@@ -40,10 +58,10 @@ class PostType extends AbstractType {
 		/**
 		 * Upload file
 		 */
-		$sValueFile = (!empty($options['sValueFile'])) ? $options['sValueFile'] : '';
+		
 		$builder->add('file', 'file', array(
 			'label' => 'Featured image: ',
-			'attr'	=> array('value' => $sValueFile),
+			'attr'	=> array('accept' => 'image/*'),//Specify that the server accepts only image files in the file upload.
 			'required'  => false
 		));
 
@@ -58,7 +76,6 @@ class PostType extends AbstractType {
 
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {
 		$resolver->setDefaults(array(
-			'sValueFile'	=> NULL,
 			'data_class' => 'Likipe\BlogBundle\Entity\Post'
 		));
 	}

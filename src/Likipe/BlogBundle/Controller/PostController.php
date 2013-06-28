@@ -51,9 +51,9 @@ class PostController extends Controller {
 	
 	public function addAction(Request $request) {
 		$oPost = new Post();
-		
+		$securityContext = $this->container->get('security.context');
 		$form = $this->createForm(
-				new PostType(),
+				new PostType($securityContext),
 				$oPost);
 		/**
 		 * Form for symfony3
@@ -64,9 +64,16 @@ class PostController extends Controller {
 			$oPost->upload();
 			
 			$em = $this->getDoctrine()->getManager();
-			
+			/**
+			 * Persist: temporary variable to save, not save to database
+			 */
 			$em->persist($oPost);
 			$em->flush();
+			
+			$log_service = $this->get("likipe.blog.log");
+			$message = $securityContext->getToken()->getUser()->getUsername() . ': Create successfully post: ' . $oPost->getTitle();
+			$log_service->writeLog($message);
+			
 			$this->get( 'session' )->getFlashBag()->add( 'post_success', $this->get('translator')->trans('Create successfully post: ' . $oPost->getTitle()) );
 			
 			return $this->redirect( $this->generateUrl( 'LikipeBlogBundle_Post_index' ));
@@ -86,25 +93,27 @@ class PostController extends Controller {
 					'No post found for id ' . $iPostId
 			);
 		}
-		#var_dump($oPost);exit;
+		$securityContext = $this->container->get('security.context');
 		$form = $this->createForm(
-				new PostType(),
-				$oPost,
-				array(
-					'sValueFile'	=> $oPost->getFeaturedimage()
-				)
+				new PostType($securityContext),
+				$oPost
 			);
 		/**
 		 * Form for symfony3
 		 */
 		$form->handleRequest($request);
 		if($form->isValid()) {
-			
-			//$em->persist($oPost);
-			$sImage = $oPost->getFeaturedimage();
-			$oPost->setFeaturedimage($sImage);
-			$oPost->upload();
+			$oFile = $form->get('file')->getData();
+			var_dump($oFile);
+			if (!empty($oFile)) {
+				$oPost->upload();
+			}
 			$em->flush();
+			
+			$log_service = $this->get("likipe.blog.log");
+			$message = $securityContext->getToken()->getUser()->getUsername() . ': Edit successfully post: ' . $oPost->getTitle();
+			$log_service->writeLog($message);
+			
 			$this->get( 'session' )->getFlashBag()->add( 'post_success', $this->get('translator')->trans('Edit successfully post: ' . $oPost->getTitle()) );
 			
 			return $this->redirect( $this->generateUrl( 'LikipeBlogBundle_Post_index' ));
@@ -117,6 +126,9 @@ class PostController extends Controller {
 	}
 	
 	public function deleteAction( $iPostId ) {
+		
+		$securityContext = $this->container->get('security.context');
+		
 		$em = $this->getDoctrine()->getManager();
 		$oPost = $em->getRepository('LikipeBlogBundle:Post')->find($iPostId);
 		
@@ -125,9 +137,14 @@ class PostController extends Controller {
 					'No post found for id ' . $iPostId
 			);
 		}
-		$oPost->removeUpload();
+		
 		$em->remove($oPost);
 		$em->flush();
+		
+		$log_service = $this->get("likipe.blog.log");
+		$message = $securityContext->getToken()->getUser()->getUsername() . ': Delete successfully post: ' . $oPost->getTitle();
+		$log_service->writeLog($message);
+		
 		$this->get( 'session' )->getFlashBag()->add( 'post_success', $this->get('translator')->trans('Delete successfully post: ' . $oPost->getTitle()) );
 		return $this->redirect($this->generateUrl('LikipeBlogBundle_Post_index'));
 	}

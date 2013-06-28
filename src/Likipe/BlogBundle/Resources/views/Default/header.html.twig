@@ -7,14 +7,16 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
-				<a class="brand title" href="#">Symfony training</a>
+				<a class="brand title" href="{{ path('LikipeBlogBundle_index') }}">Symfony training</a>
 				<div class="nav-collapse collapse">
 					{% block navigation %}
 					<ul class="nav">
 						<li class="active"><a href="{{ path('LikipeBlogBundle_index') }}">Home</a></li>
 						<li><a href="{{ path('LikipeBlogBundle_Post_index') }}">Post</a></li>
-						<li><a href="{{ path('LikipeBlogBundle_Blog_index') }}">Blog</a></li>
-						<li><a href="{{ path('LikipeBlogBundle_User_index') }}">User management</a></li>
+						{% if is_granted('ROLE_ADMIN') %}
+							<li><a href="{{ path('LikipeBlogBundle_Blog_index') }}">Blog</a></li>
+							<li><a href="{{ path('LikipeBlogBundle_User_index') }}">User management</a></li>
+						{% endif %}
 					</ul>
 					{% endblock %}
 					<div class="logout pull-right">

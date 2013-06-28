@@ -1,5 +1,5 @@
 LikipeBlogBundle_index:
-    pattern:  /
+    pattern:  /dashboard
     defaults: { _controller: LikipeBlogBundle:Default:index }
     
 LikipeBlogBundle_Post:

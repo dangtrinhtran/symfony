@@ -29,9 +29,9 @@ class UserController extends Controller {
 		);
 	}
 	
-	public function testAction() {
-		return $this->render('LikipeBlogBundle:Security:login.html.twig');
-	}
+	public function deniedAction() {
+        return $this->render( 'EcommerceBackendBundle:Default:denied.html.twig');
+    }
 
 	public function addAction( Request $request ) {
 		

@@ -6,8 +6,8 @@ namespace Likipe\BlogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
+use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 
 /**
  * Likipe\BlogBundle\Entity\User

@@ -296,25 +296,29 @@ class Post {
 		return $this->file;
 	}
 
-	public function getAbsolutePath() {
-		return null === $this->featuredimage ? null : $this->getUploadRootDir() . '/' . $this->featuredimage;
-	}
-
-	public function getWebPath() {
-		return null === $this->featuredimage ? null : $this->getUploadDir() . '/' . $this->featuredimage;
-	}
-
 	/**
 	 * The absolute directory path where uploaded.
 	 * Documents should be saved.
+	 * @author Rony <rony@likipe.se>
 	 */
 	protected function getUploadRootDir() {
 		return __DIR__ . '/../../../../web/' . $this->getUploadDir();
+	}
+	
+	/**
+	 * Get directory path when upload.
+	 * @author Rony <rony@likipe.se>
+	 * @return string
+	 */
+	protected function getUploadRoot() {
+		return __DIR__ . '/../../../../web/';
 	}
 
 	/**
 	 * Get rid of the __DIR__ so it doesn't screw up
 	 * When displaying uploaded doc/image in the view.
+	 * @author Rony <rony@likipe.se>
+	 * @return string
 	 */
 	protected function getUploadDir() {
 		return 'uploads/documents';
@@ -322,7 +326,8 @@ class Post {
 	
 	/**
 	 * The upload() method will take advantage of the UploadedFile object, 
-	 * which is what's returned after a file field is submitted
+	 * which is what's returned after a file field is submitted.
+	 * @author Rony <rony@likipe.se>
 	 */
 	public function upload() {
 		// the file property can be empty if the field is not required
@@ -334,12 +339,17 @@ class Post {
 		// sanitize it at least to avoid any security issues
 		// move takes the target directory and then the
 		// target filename to move to
+		
+		
+		$fileName = pathinfo($this->getFile()->getClientOriginalName());
+		$fileUpload = time('now') . '.' . $fileName['extension'];
+		
 		$this->getFile()->move(
-				$this->getUploadRootDir(), $this->getFile()->getClientOriginalName()
+				$this->getUploadRootDir(), $fileUpload
 		);
 
 		// set the path property to the filename where you've saved the file
-		$this->featuredimage = $this->getUploadDir() . '/' .$this->getFile()->getClientOriginalName();
+		$this->featuredimage = $this->getUploadDir() . '/' . $fileUpload;
 
 		// clean up the file property as you won't need it anymore
 		$this->file = null;
@@ -347,10 +357,18 @@ class Post {
 	
 	/**
 	 * @ORM\PostRemove()
+	 * PostRemove(): After remove => automatic call function removeUpload().
+	 * Remove file upload.
+	 * @author Rony <rony@likipe.se>
+	 * @return bool <b>TRUE</b> on success or <b>FALSE</b> on failure.
 	 */
 	public function removeUpload() {
-		if (isset($this->file)) {
-			unlink($this->file);
+		if (empty($this->featuredimage)) return;
+		$file = $this->getUploadRoot() . $this->featuredimage;
+		
+		if ($file) {
+			if (file_exists($file) && is_writable($file)) 
+				unlink ($file);
 		}
 	}
 

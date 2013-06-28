@@ -311,6 +311,10 @@ class Post {
 	protected function getUploadRootDir() {
 		return __DIR__ . '/../../../../web/' . $this->getUploadDir();
 	}
+	
+	protected function getUploadRoot() {
+		return __DIR__ . '/../../../../web/';
+	}
 
 	/**
 	 * Get rid of the __DIR__ so it doesn't screw up
@@ -343,6 +347,13 @@ class Post {
 
 		// clean up the file property as you won't need it anymore
 		$this->file = null;
+	}
+	
+	/**
+	 * @ORM\PostRemove()
+	 */
+	public function removeUpload() {
+		return rtrim(dirname(__FILE__), '/\\') . DIRECTORY_SEPARATOR . $this->featuredimage;
 	}
 
 }

@@ -1,7 +1,7 @@
 parameters:
-#    likipe_blog.example.class: Likipe\BlogBundle\Example
+    likipe_blogbundle_services_log.class:      Likipe\BlogBundle\Services\LogService
 
 services:
-#    likipe_blog.example:
-#        class: %likipe_blog.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+    likipe.blog.log:
+        class: %likipe_blogbundle_services_log.class%
+        arguments: ["@service_container"]
