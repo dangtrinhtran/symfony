@@ -24,3 +24,7 @@ LikipeBlogBundle_Security_login_check:
 LikipeBlogBundle_Security_logout:
     pattern:  /logout
     defaults: { _controller: "LikipeBlogBundle:Security:logout" }
+
+LikipeBlogBundle_ckeditor_browser_url:
+    pattern:  /ckeditor-browser
+    defaults: { _controller: "LikipeBlogBundle:Default:configCKeditor" }

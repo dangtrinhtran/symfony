@@ -16,4 +16,8 @@ class DefaultController extends Controller {
 		return $this->render('LikipeBlogBundle:Default:index.html.twig');
 	}
 
+	public function configCKeditorAction() {
+		$browser = new browser();
+		$browser->action();
+	}
 }

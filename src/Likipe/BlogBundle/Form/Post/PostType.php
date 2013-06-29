@@ -41,6 +41,11 @@ class PostType extends AbstractType {
 			'label' => 'Title post: '
 		));
 		
+		$builder->add('slug', 'text', array(
+			'label' => 'Slug post: ',
+			'required' => false
+		));
+		
 		/**
 		 * Entity Field Type
 		 */
@@ -54,6 +59,14 @@ class PostType extends AbstractType {
 						->orderBy('b.title', 'DESC');
 			}
 		));
+
+		/**
+		 * Using CKEditor content
+		 */
+		$builder->add('content', 'ckeditor', array(
+			'label' => 'Content post: ',
+			'required' => false
+		));
 		
 		/**
 		 * Upload file
@@ -63,14 +76,6 @@ class PostType extends AbstractType {
 			'label' => 'Featured image: ',
 			'attr'	=> array('accept' => 'image/*'),//Specify that the server accepts only image files in the file upload.
 			'required'  => false
-		));
-
-		/**
-		 * Using CKEditor content
-		 */
-		$builder->add('content', 'ckeditor', array(
-			'label' => 'Content post: ',
-			'required' => false
 		));
 	}
 

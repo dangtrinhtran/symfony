@@ -11,6 +11,9 @@
 			<div class="form-content clearfix row-fluid">
 				<div class="form-info">
 				{{ form_widget(post) }}
+				{% if oPost.featuredimage is defined %}
+						<img src="{{ asset(oPost.featuredimage) }}" class="img-polaroid">
+				{% endif %}
 				</div>
 				{{ form_rest(post) }}
 				</div>

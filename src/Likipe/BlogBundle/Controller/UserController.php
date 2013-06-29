@@ -30,7 +30,7 @@ class UserController extends Controller {
 	}
 	
 	public function deniedAction() {
-        return $this->render( 'EcommerceBackendBundle:Default:denied.html.twig');
+        return $this->render( 'LikipeBlogBundle:Default:denied.html.twig');
     }
 
 	public function addAction( Request $request ) {

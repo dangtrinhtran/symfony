@@ -104,7 +104,7 @@ class PostController extends Controller {
 		$form->handleRequest($request);
 		if($form->isValid()) {
 			$oFile = $form->get('file')->getData();
-			var_dump($oFile);
+			
 			if (!empty($oFile)) {
 				$oPost->upload();
 			}
@@ -121,6 +121,7 @@ class PostController extends Controller {
 		
 		return $this->render('LikipeBlogBundle:Post:edit.html.twig', array(
 			'post' => $form->createView(),
+			'oPost'	=> $oPost,
 			'iPostId'	=> $iPostId
 		));
 	}

@@ -1,7 +1,20 @@
 parameters:
     likipe_blogbundle_services_log.class:      Likipe\BlogBundle\Services\LogService
+    likipe_blogbundle_listeners_slug:      Likipe\BlogBundle\Listeners\SlugListener
+    likipe_blogbundle_extension_formatdatetime:      Likipe\BlogBundle\Extension\FormatDateTimeExtension
 
 services:
     likipe.blog.log:
         class: %likipe_blogbundle_services_log.class%
         arguments: ["@service_container"]
+    likipe.blog.listener.slug:
+        class: %likipe_blogbundle_listeners_slug%
+        arguments: ["@service_container"]
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+    likipe.blog.extension.twig:
+        class: %likipe_blogbundle_extension_formatdatetime%
+        tags:
+            - { name: twig.extension }
+        
+       

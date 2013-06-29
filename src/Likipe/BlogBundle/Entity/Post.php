@@ -38,6 +38,13 @@ class Post {
 	 * @ORM\Column(name="title_post", type="string", length=255)
 	 */
 	protected $title;
+	
+	/**
+	 * @var string $slug
+	 *
+	 * @ORM\Column(name="slug_post", type="string", length=255)
+	 */
+	protected $slug;
 
 	/**
 	 * @var string $content
@@ -83,15 +90,6 @@ class Post {
 	 * @Assert\File(maxSize="6000000")
 	 */
 	private $file;
-
-	/**
-	 * @ORM\PrePersist
-	 */
-	public function prePersist() {
-		$this->setCreated(new \DateTime('now'));
-		$this->setUpdated(new \DateTime('now'));
-		$this->setDelete(0);
-	}
 
 	/**
 	 * @ORM\PreUpdate
@@ -295,11 +293,33 @@ class Post {
 	public function getFile() {
 		return $this->file;
 	}
+	
+    /**
+	 * Set slug
+	 *
+	 * @param string $slug
+	 * @return Post
+	 */
+	public function setSlug($slug) {
+		$this->slug = $slug;
+
+		return $this;
+	}
+
+	/**
+	 * Get slug
+	 *
+	 * @return string 
+	 */
+	public function getSlug() {
+		return $this->slug;
+	}
 
 	/**
 	 * The absolute directory path where uploaded.
 	 * Documents should be saved.
 	 * @author Rony <rony@likipe.se>
+	 * @return string
 	 */
 	protected function getUploadRootDir() {
 		return __DIR__ . '/../../../../web/' . $this->getUploadDir();
@@ -371,5 +391,4 @@ class Post {
 				unlink ($file);
 		}
 	}
-
 }

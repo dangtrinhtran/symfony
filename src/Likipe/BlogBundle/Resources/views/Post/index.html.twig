@@ -16,6 +16,7 @@
 					<th>STT</th>
 					<th>Id post</th>
 					<th>Title post</th>
+					<th>Slug post</th>
 					<th>Featured image</th>
 					<th>Created post</th>
 					<th>Updated post</th>
@@ -32,13 +33,14 @@
 				<td>{{ key + 1 }}</td>
 				<td>{{ post.id }}</td>
 				<th>{{ post.title }}</th>
+				<th>{{ post.slug }}</th>
 				<th>
 					{% if post.featuredimage is not empty %}
 					<img src="{{ asset(post.featuredimage) }}" class="img-polaroid">
 					{% endif %}
 				</th>
 				{% set oDateCreate =  post.created %}
-				<td>{{ oDateCreate.date }}</td>
+				<td>{{ formatDateTime(oDateCreate) }}</td>
 				{% set oDateUpdate =  post.updated %}
 				<td>{{ oDateUpdate.date }}</td>
 				<td>{{ post.author }}</td>

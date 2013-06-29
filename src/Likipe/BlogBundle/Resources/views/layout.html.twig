@@ -9,23 +9,23 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
-		<link rel="icon" type="image/x-icon" href="{{ asset('images/favicon.ico') }}" />
+		<link rel="icon" type="image/x-icon" href="{{ asset('blog/images/favicon.ico') }}" />
 		
-        <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('blog/css/bootstrap.min.css') }}">
         <style>
             body {
                 padding-top: 60px;
                 padding-bottom: 40px;
             }
         </style>
-        <link rel="stylesheet" href="{{ asset('css/bootstrap-responsive.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('blog/css/bootstrap-responsive.min.css') }}">
 		
 		{% block stylesheets %}
-        <link rel="stylesheet" href="{{ asset('css/style.css?v=1.0') }}">
-		<link rel="stylesheet" href="{{ asset('css/uniform.default.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('blog/css/style.css?v=1.0') }}">
+		<link rel="stylesheet" href="{{ asset('blog/css/uniform.default.min.css') }}">
 		{% endblock %}
 
-        <script src="{{ asset('js/vendor/modernizr-2.6.2-respond-1.1.0.min.js') }}"></script>
+        <script src="{{ asset('blog/js/vendor/modernizr-2.6.2-respond-1.1.0.min.js') }}"></script>
     </head>
     <body>
         <!--[if lt IE 7]>
@@ -47,13 +47,13 @@
 			{% endblock %}
 		</div>
         <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
-        <script>window.jQuery || document.write('<script src="{{ asset('js/vendor/jquery-1.9.1.min.js') }}"><\/script>')</script>
+        <script>window.jQuery || document.write('<script src="{{ asset('blog/js/vendor/jquery-1.9.1.min.js') }}"><\/script>')</script>
 
-        <script src="{{ asset('js/vendor/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('blog/js/vendor/bootstrap.min.js') }}"></script>
 		
 		{% block javascripts %}
-        <script src="{{ asset('js/script.js') }}"></script>
-		<script src="{{ asset('js/libs/jquery.uniform.min.js') }}"></script>
+        <script src="{{ asset('blog/js/script.js') }}"></script>
+		<script src="{{ asset('blog/js/libs/jquery.uniform.min.js') }}"></script>
 		{% endblock %}
         <script>
             var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
