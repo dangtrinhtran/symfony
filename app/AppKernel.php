@@ -18,6 +18,8 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Likipe\BlogBundle\LikipeBlogBundle(),
 			new Trsteel\CkeditorBundle\TrsteelCkeditorBundle(),
+			new JMS\SerializerBundle\JMSSerializerBundle(),
+			new FOS\RestBundle\FOSRestBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
