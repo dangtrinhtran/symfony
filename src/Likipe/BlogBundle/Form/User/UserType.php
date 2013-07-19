@@ -10,6 +10,9 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class UserType extends AbstractType {
 	
+	/**
+     * {@inheritdoc}
+     */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		
 		$builder->add('firstname', 'text', array(
@@ -45,12 +48,19 @@ class UserType extends AbstractType {
 		));
 	}
 
+	/**
+     * {@inheritdoc}
+     */
 	public function setDefaultOptions(OptionsResolverInterface $resolver) {
 		$resolver->setDefaults(array(
-			'data_class' => 'Likipe\BlogBundle\Entity\User'
+			'data_class' => 'Likipe\BlogBundle\Entity\User',
+			'csrf_protection'   => false,
 		));
 	}
 
+	/**
+     * {@inheritdoc}
+     */
 	public function getName() {
 		return 'user';
 	}

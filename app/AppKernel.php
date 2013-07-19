@@ -20,6 +20,7 @@ class AppKernel extends Kernel
 			new Trsteel\CkeditorBundle\TrsteelCkeditorBundle(),
 			new JMS\SerializerBundle\JMSSerializerBundle(),
 			new FOS\RestBundle\FOSRestBundle(),
+            new Likipe\DataAPIBundle\LikipeDataAPIBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

@@ -1,3 +1,7 @@
 likipe_blog:
     resource: "@LikipeBlogBundle/Resources/config/routing.yml"
     prefix:   /backend
+
+Likipe_DataAPI:
+    resource: "@LikipeDataAPIBundle/Resources/config/routing.yml"
+    prefix:   /api

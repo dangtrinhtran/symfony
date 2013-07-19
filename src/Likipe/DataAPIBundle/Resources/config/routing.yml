@@ -1,0 +1,22 @@
+Likipe_DataAPI_User:
+    pattern:  /user.{_format}
+    defaults: { _controller: LikipeDataAPIBundle:User:getUsers, _format: json }
+
+Likipe_DataAPI_User_Id:
+    pattern:  /user/{iIdUser}.{_format}
+    defaults: { _controller: LikipeDataAPIBundle:User:getUserById, _format: json }
+    requirements:
+        _method: GET
+        iIdUser: "\d+"
+
+Likipe_DataAPI_Blog:
+    pattern:  /blog.{_format}
+    defaults: { _controller: LikipeDataAPIBundle:User:getBlogs, _format: json }
+
+Likipe_DataAPI_User_new:
+    pattern:  /user/new.{_format}
+    defaults: { _controller: LikipeDataAPIBundle:User:newUsers, _format: json }
+
+Likipe_DataAPI_User_Hello:
+    pattern:  /hello/{name}.{_format}
+    defaults: { _controller: LikipeDataAPIBundle:User:index, _format: json }

@@ -86,3 +86,43 @@ trsteel_ckeditor:
     language: 'en-au'
     filebrowser_browse_url:
         url: %path%
+
+#FOSRestBundle Configuration
+fos_rest:
+    allowed_methods_listener: true
+    access_denied_listener:
+        json: true
+    format_listener:
+        default_priorities:
+            - html
+            - json
+            - xml
+            - rss
+            - "*/*"
+            # never reached due to "*/*"
+            - ding
+    format_listener:
+        default_priorities: ['json', html, '*/*']
+        fallback_format: json
+        prefer_extension: true
+    body_listener: true
+    param_fetcher_listener: true
+    routing_loader:
+        default_format: json
+    view:
+        formats:
+            json: true
+            rss: false # removing them will also work
+            xml: false
+        mime_types:
+            json: ['application/json', 'application/x-json', 'application/vnd.example-com.foo+json']
+        templating_formats:
+            html: true
+        force_redirects:
+            html: true
+        view_response_listener: force
+        failed_validation: HTTP_BAD_REQUEST
+        default_engine: twig
+        
+sensio_framework_extra:
+    view:    { annotations: false }
