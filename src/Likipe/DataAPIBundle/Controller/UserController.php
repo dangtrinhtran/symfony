@@ -14,8 +14,13 @@ use Symfony\Bundle\FrameworkBundle\Templating\TemplateReference;
 class UserController extends Controller {
 
 	/**
-     * @Rest\View
-     */
+	 * Get name
+	 *
+	 * @param string $name
+	 * @return View view instance
+	 *
+	 * @Rest\View
+	 */
 	public function indexAction($name = NULL) {
 		$view = View::create(array('name' => $name))
 				->setStatusCode(200)
@@ -27,9 +32,13 @@ class UserController extends Controller {
 	}
 	
 	/**
-     * @Rest\View
-     */
-	public function getUsersAction() {
+	 * Get all users
+	 *
+	 * @return View view instance
+	 *
+	 * @Rest\View
+	 */
+	public function cgetUsersAction() {
 		
 		$oAllUsers = $this->getDoctrine()
 				->getRepository('LikipeBlogBundle:User')
@@ -46,8 +55,13 @@ class UserController extends Controller {
 	}
 	
 	/**
-     * @Rest\View
-     */
+	 * Get user by ID
+	 *
+	 * @param string $iIdUser
+	 * @return View view instance
+	 *
+	 * @Rest\View
+	 */
 	public function getUserByIdAction($iIdUser) {
 		
 		$oUser = $this->getDoctrine()
@@ -65,8 +79,12 @@ class UserController extends Controller {
 	}
 	
 	/**
-     * @Rest\View
-     */
+	 * Get blog
+	 *
+	 * @return View view instance
+	 *
+	 * @Rest\View
+	 */
 	public function getBlogsAction() {
 		
 		$oAllBlogs = $this->getDoctrine()
@@ -84,7 +102,39 @@ class UserController extends Controller {
 		return $this->get('fos_rest.view_handler')->handle($view);
 	}
 	
-	public function newUsersAction(Request $request) {
+	/**
+	 * Put blog
+	 *
+	 * @return View view instance
+	 *
+	 * @Rest\View
+	 */
+	public function putBlogAction() {
+		
+		$oAllBlogs = $this->getDoctrine()
+				->getRepository('LikipeBlogBundle:Blog')
+				->findAll();
+		
+		if(!$oAllBlogs)
+			throw new NotFoundHttpException('Blog not found');
+		
+		$view = View::create(array('blogs' => $oAllBlogs))
+				->setStatusCode(200)
+				->setEngine('twig')
+				->setData($oAllBlogs)
+				->setTemplate(new TemplateReference('LikipeDataAPIBundle', 'Default', 'blog'));
+		return $this->get('fos_rest.view_handler')->handle($view);
+	}
+	
+	/**
+	 * Create a new resource
+	 * Post new user
+	 * 
+	 * @return View view instance
+	 *
+	 * @Rest\View
+	 */
+	public function postUserAction(Request $request) {
 		$user = new User();
 		$statusCode = $user ? 201 : 204;
 		
@@ -95,25 +145,14 @@ class UserController extends Controller {
 			$em = $this->getDoctrine()->getManager();
 			$em->persist($user);
 			$em->flush();
-
-			$view = View::create(array('user' => $user))
-				->setStatusCode(200)
-				->setEngine('twig')
-				->setData($user)
-				->setTemplate(new TemplateReference('LikipeDataAPIBundle', 'Default', 'user-id'));
-			return $this->get('fos_rest.view_handler')->handle($view);
-		
-//			$response = new Response();
-//			$response->setStatusCode($statusCode);
-//			// set the `Location` header only when creating new resources
-//			if (201 === $statusCode) {
-//				$response->headers->set('Location', $this->generateUrl(
-//						'Likipe_DataAPI_User_Id', array('iIdUser' => $user->getId()), true));
-//			}
-//			return $response;
+			
+			$response = new Response();
+			$response->setStatusCode($statusCode);
+			if (201 === $statusCode) {
+				return $this->redirect( $this->generateUrl( 'Likipe_DataAPI_User_Id', array('iIdUser' => $user->getId()) ));
+			}
 		}
 
 		return View::create($form, 400);
 	}
 }
-#curl -v -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"user":{"username":"foo", "email": "foo@example.org", "password":"hahaha"}}' http://localhost/symfony/web/app_dev.php/api/user/new
