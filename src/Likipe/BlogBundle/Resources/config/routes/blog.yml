@@ -9,6 +9,7 @@ LikipeBlogBundle_Blog_add:
 LikipeBlogBundle_Blog_edit:
     pattern:  /edit/{iBlogId}
     defaults: { _controller: "LikipeBlogBundle:Blog:edit" }
+    methods: [GET|PUT]
     
 LikipeBlogBundle_Blog_delete:
     pattern:  /delete/{iBlogId}

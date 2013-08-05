@@ -126,3 +126,7 @@ fos_rest:
         
 sensio_framework_extra:
     view:    { annotations: false }
+ 
+#NelmioApiDocBundle
+nelmio_api_doc:
+    name: Documentation API (version 1.0)

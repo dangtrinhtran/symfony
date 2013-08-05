@@ -5,7 +5,7 @@
 
 	<div class="row-fluid blog">
 		<h1>Create new user!</h1>
-		<form class="form-user" action="{{ path('Likipe_DataAPI_User_post') }}" method="post" {{ form_enctype(user) }}>
+		<form class="form-user" action="{{ path('Likipe_DataAPI_User_post') }}" method="POST" {{ form_enctype(user) }}>
 			<div class="content">
 			{{ form_errors(user) }}
 			<div class="form-content clearfix row-fluid">

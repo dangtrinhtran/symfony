@@ -21,6 +21,8 @@ class AppKernel extends Kernel
 			new JMS\SerializerBundle\JMSSerializerBundle(),
 			new FOS\RestBundle\FOSRestBundle(),
             new Likipe\DataAPIBundle\LikipeDataAPIBundle(),
+			new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
+			new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

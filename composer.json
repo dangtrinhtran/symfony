@@ -19,9 +19,11 @@
         "sensio/framework-extra-bundle": "2.3.*",
         "sensio/generator-bundle": "2.3.*",
         "incenteev/composer-parameter-handler": "~2.0",
-		"Trsteel/ckeditor-bundle": "1.1.*@dev",
+		"trsteel/ckeditor-bundle": "1.2.*@dev",
 		"friendsofsymfony/rest-bundle": "0.13.*@dev",
-        "jms/serializer-bundle": "0.12.*@dev"
+        "jms/serializer-bundle": "0.12.*@dev",
+		"nelmio/api-doc-bundle": "dev-master",
+		"friendsofsymfony/jsrouting-bundle": "1.1.*@dev"
     },
     "scripts": {
         "post-install-cmd": [

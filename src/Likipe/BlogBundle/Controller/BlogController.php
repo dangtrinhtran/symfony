@@ -84,7 +84,7 @@ class BlogController extends Controller {
 		
 		return $this->render('LikipeBlogBundle:Blog:edit.html.twig', array(
 			'blog' => $form->createView(),
-			'$iBlogId'	=> $iBlogId
+			'iIdBlog'	=> $iBlogId
 		));
 	}
 
