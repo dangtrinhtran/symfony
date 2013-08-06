@@ -25,6 +25,15 @@ Likipe_DataAPI_Blog_put:
         iIdBlog: "\d+"
     options:
         expose: true
+        
+Likipe_DataAPI_Post_delete:
+    pattern:  /post/delete/{iIdPost}.{_format}
+    defaults: { _controller: LikipeDataAPIBundle:User:deletePost, _format: json }
+    methods: [DELETE]
+    requirements:
+        iIdPost: "\d+"
+    options:
+        expose: true
 
 Likipe_DataAPI_Blog:
     pattern:  /blog.{_format}

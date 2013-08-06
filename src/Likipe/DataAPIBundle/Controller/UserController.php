@@ -7,9 +7,7 @@ use FOS\RestBundle\View\View;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Likipe\BlogBundle\Entity\User;
-use Likipe\BlogBundle\Form\User\UserType;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Templating\TemplateReference;
 
 class UserController extends Controller {
@@ -45,7 +43,8 @@ class UserController extends Controller {
      *         404={
      *           "Returned when the user is not found",
      *           "Returned when somehting else is not found"
-     *         }
+     *         },
+	 *         500="Internal Server Error"
      *     }
      * )
 	 */
@@ -55,9 +54,9 @@ class UserController extends Controller {
 				->getRepository('LikipeBlogBundle:User')
 				->findAll();
 		if(!$oAllUsers) {
-			$view = View::create();
-            $view->setStatusCode(204);
-            return $view;
+			return View::create(
+				array('error' => array('User does not exist!.')), 404
+			);
 		}
 		
 		$view = View::create(array('users' => $oAllUsers))
@@ -80,8 +79,9 @@ class UserController extends Controller {
      *         403="Returned when the user is not authorized",
      *         404={
      *           "Returned when the user is not found",
-     *           "Returned when somehting else is not found"
-     *         }
+     *           "Returned when something else is not found"
+     *         },
+	 *         500="Internal Server Error"
      *     }
      * )
 	 */
@@ -91,9 +91,9 @@ class UserController extends Controller {
 				->getRepository('LikipeBlogBundle:User')
 				->find($iIdUser);
 		if(!$oUser) {
-			$view = View::create();
-            $view->setStatusCode(204);
-            return $view;
+			return View::create(
+				array('error' => sprintf('No user found for id %d.', $iIdUser)), 404
+			);
 		}
 		
 		$view = View::create(array('user' => $oUser))
@@ -111,7 +111,9 @@ class UserController extends Controller {
 	 * @ApiDoc(
 	 *     description="Returns a collection of Blog",
 	 *     statusCodes={
-     *         200="Returned when successful"
+     *         200="Returned when successful",
+	 *         404="Returned when Blog does not exist!",
+	 *         500="Internal Server Error"
      *     }
      * )
 	 */
@@ -122,9 +124,9 @@ class UserController extends Controller {
 				->findAll();
 		
 		if(!$oAllBlogs) {
-			$view = View::create();
-            $view->setStatusCode(204);
-            return $view;
+			return View::create(
+				array('error' => array('Blog does not exist!.')), 404
+			);
 		}
 		
 		$view = View::create(array('blogs' => $oAllBlogs))
@@ -144,7 +146,8 @@ class UserController extends Controller {
 	 *     description="Get blog by ID",
 	 *     statusCodes={
      *         200="Returned when successful",
-     *         204="Returned when the blog is not found"
+     *         404="Returned when the blog is not found",
+	 *         500="Internal Server Error"
      *     }
      * )
 	 */
@@ -154,9 +157,9 @@ class UserController extends Controller {
 				->getRepository('LikipeBlogBundle:Blog')
 				->find($iIdBlog);
 		if(!$oBlog) {
-			$view = View::create();
-            $view->setStatusCode(204);
-            return $view;
+			return View::create(
+				array('error' => sprintf('No blog found for id %d.', $iIdBlog)), 404
+			);
 		}
 		
 		$view = View::create(array('blog' => $oBlog))
@@ -179,7 +182,7 @@ class UserController extends Controller {
      *     output="Likipe\DataAPIBundle\UserController",
 	 *     statusCodes={
      *         200="Returned when successful",
-	 *         204="Returned when the blog is not found",
+	 *         404="Returned when the blog is not found",
 	 *         400="Returned when data error",
 	 *         500="Internal Server Error"
      *     }
@@ -190,9 +193,9 @@ class UserController extends Controller {
 		$oBlog = $em->getRepository('LikipeBlogBundle:Blog')->find($iIdBlog);
 		
 		if (!$oBlog) {
-			$view = View::create();
-            $view->setStatusCode(204);
-            return $view;
+			return View::create(
+				array('error' => sprintf('No blog found for id %d.', $iIdBlog)), 404
+			);
 		}
 		/**
 		 * If use form $request->get('blog'): blog is name
@@ -200,22 +203,22 @@ class UserController extends Controller {
 		$data = json_decode($request->getContent());
 		
 		if($data === false) {
-			$view = View::create();
-            $view->setStatusCode(400);
-            return $view;
+			return View::create(
+				array('error' => array('Error parsing JSON data in request body.')), 400
+			);
 		}
 
 		if( ! is_array($data)) {
-			$view = View::create();
-            $view->setStatusCode(400);
-            return $view;
+			return View::create(
+				array('error' => array('JSON in request body must be an array.')), 400
+			);
 		}
 		
 		foreach($data as $blog) {
 			if( ! is_object($blog)) {
-				$view = View::create();
-				$view->setStatusCode(400);
-				return $view;
+				return View::create(
+					array('error' => array('Blog in data array must be objects.')), 400
+				);
 			}
 			$oBlog->setTitle($blog->title);
 			$oBlog->setDescription($blog->description);
@@ -238,32 +241,90 @@ class UserController extends Controller {
 	 *     input="Likipe\BlogBundle\Form\User\UserType",
      *     output="Likipe\DataAPIBundle\UserController",
 	 *     statusCodes={
-     *         201="Returned when successful",
-	 *         204="Returned when not successful",
-     *         400="Returned when the user already exists",
+     *         200="Returned when successful",
+     *         400="Returned when data error",
 	 *         500="Internal Server Error"
      *     }
      * )
 	 */
 	public function postUserAction(Request $request) {
+		$em = $this->getDoctrine()->getManager();
 		$user = new User();
-		$statusCode = $user ? 201 : 204;
+		$dataRequest = $request->request->get('user');
 		
-		$form = $this->createForm(new UserType(), $user);
-		$form->handleRequest($request);
-
-		if ($form->isValid()) {
-			$em = $this->getDoctrine()->getManager();
-			$em->persist($user);
-			$em->flush();
-			
-			$response = new Response();
-			$response->setStatusCode($statusCode);
-			if (201 === $statusCode) {
-				return $this->redirect( $this->generateUrl( 'Likipe_DataAPI_User_Id', array('iIdUser' => $user->getId()) ));
+		if( ! is_array($dataRequest)) {
+			return View::create(
+                array('error' => array('Data in request body must be an array.')), 400
+            );
+		}
+		
+		if(empty($dataRequest)) {
+			return View::create(
+                array('error' => array('Parameters is not empty.')), 400
+            );
+		}
+		
+		if (empty($dataRequest['username']) && empty($dataRequest['Email']) && empty($dataRequest['password'])) {
+			return View::create(
+                array('errors' => array('Invalid parameters.')), 400
+            );
+		} else {
+			if ($dataRequest['password']['first'] !== $dataRequest['password']['second']) {
+				return View::create(
+					array('errors' => array('Password invalid.')), 400
+				);
 			}
 		}
-
-		return View::create($form, 400);
+		
+		$user->setFirstname($dataRequest['firstname']);
+		$user->setLastname($dataRequest['lastname']);
+		$user->setUsername($dataRequest['username']);
+		$user->setPassword($dataRequest['password']['first']);
+		$user->setRole($dataRequest['role']);
+		$user->setEmail($dataRequest['Email']);
+		$em->persist($user);
+		$em->flush();
+		
+		$dataResponse = array(
+				'firstname'    => $dataRequest['firstname'],
+				'lastname'   => $dataRequest['lastname'],
+				'username' => $dataRequest['username'],
+				'email'		=> $dataRequest['Email']
+			);
+		$view = View::create(array('user' => $dataResponse))
+				->setStatusCode(200)
+				->setData($dataResponse);
+		return $this->get('fos_rest.view_handler')->handle($view);
+	}
+	
+	/**
+	 * Delete post
+	 * @param integer $iIdPost
+	 * @return View view instance
+	 * @Rest\View
+	 * @ApiDoc(
+	 *     description="Delete post",
+	 *     statusCodes={
+     *         200="Returned when successful",
+     *         404="Returned when the post is not found",
+	 *         500="Internal Server Error"
+     *     }
+     * )
+	 */
+	public function deletePostAction($iIdPost) {
+		
+		$em = $this->getDoctrine()->getManager();
+		$oPost = $em->getRepository('LikipeBlogBundle:Post')->find($iIdPost);
+		
+		if (!$oPost) {
+			return View::create(
+				array('error' => sprintf('No post found for id %d.', $iIdPost)), 404
+			);
+		}
+		$em->remove($oPost);
+		$em->flush();
+		return View::create(
+			array('success' => sprintf('Delete successfully post id %d', $iIdPost)), 200
+		);
 	}
 }
